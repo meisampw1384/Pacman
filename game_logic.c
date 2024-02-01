@@ -97,7 +97,7 @@ void display_the_map(struct map_player map, struct information_of_player player,
     printf(RED "\n\nPress on <esc> for Exit" RESET);
 }
 // move ghost random
-struct map_player move_ghost(struct map_player map)
+struct map_player move_ghost(struct map_player map,struct information_of_player player,int pill)
 {
     struct map_player updated_map;
     updated_map.row = map.row;
@@ -112,7 +112,6 @@ struct map_player move_ghost(struct map_player map)
         strcpy(updated_map.map[i], map.map[i]);
     }
 
-    srand(time(NULL));
 
     for (int i = 0; i < map.row; i++)
     {
@@ -120,24 +119,55 @@ struct map_player move_ghost(struct map_player map)
         {
             if (map.map[i][j] == 'F')
             {
+                int random_number=rand()%4;
 
-                int random_number = rand() % 4;
-
-                if (random_number == 0 && map.map[i][j - 1] == '.')
+                if (random_number==0&&map.map[i][j - 1] != '-'&& map.map[i][j - 1] != '|'&& map.map[i][j - 1] != 'P'&& map.map[i][j - 1] != 'F')//move ghost left
                 {
-                    move_array_elements(updated_map, i, j, i, j - 1);
+                   if (map.map[i][j-1]!='@')
+                    move_array_elements(updated_map, i, j, i, j-1);
+                    else {
+                        move_array_elements(updated_map, i, j, i, j-1);
+                        updated_map.map[i][j]='.';
+                        display_the_map(updated_map,player,pill);
+                        sleep(1);
+                        display_lose_the_game(player);
+                    }
                 }
-                else if (random_number == 1 && map.map[i][j + 1] == '.')
+                else if (random_number==1&&map.map[i][j + 1] != '-'&&map.map[i][j + 1] != '|'&&map.map[i][j + 1] != 'P'&&map.map[i][j + 1] != 'F')//move ghost right
                 {
-                    move_array_elements(updated_map, i, j, i, j + 1);
+                    if (map.map[i][j+1]!='@')
+                    move_array_elements(updated_map, i, j, i , j+1);
+                    else {
+                        move_array_elements(updated_map, i, j, i + 1, j+1);
+                        updated_map.map[i][j]='.';
+                        display_the_map(updated_map,player,pill);
+                        sleep(1);
+                        display_lose_the_game(player);
+                    }
                 }
-                else if (random_number == 2 && map.map[i - 1][j] == '.')
+                else if ( random_number==2&&map.map[i - 1][j] != '-'&& map.map[i - 1][j] != '|'&& map.map[i - 1][j] != 'P'&& map.map[i - 1][j] != 'F')//move ghost up
                 {
+                    if (map.map[i-1][j]!='@')
                     move_array_elements(updated_map, i, j, i - 1, j);
+                    else {
+                        move_array_elements(updated_map, i, j, i - 1, j);
+                        updated_map.map[i][j]='.';
+                        display_the_map(updated_map,player,pill);
+                        sleep(1);
+                        display_lose_the_game(player);
+                    }
                 }
-                else if (random_number == 3 && map.map[i + 1][j] == '.')
+                else if (random_number==3&& map.map[i + 1][j] != '-'&& map.map[i + 1][j] != '|'&& map.map[i + 1][j] != 'P'&& map.map[i + 1][j] != 'F')//move ghost down
                 {
+                    if (map.map[i+1][j]!='@')
                     move_array_elements(updated_map, i, j, i + 1, j);
+                    else {
+                        move_array_elements(updated_map, i, j, i + 1, j);
+                        updated_map.map[i][j]='.';
+                        display_the_map(updated_map,player,pill);
+                        sleep(1);
+                        display_lose_the_game(player);
+                    }
                 }
             }
         }
@@ -147,6 +177,7 @@ struct map_player move_ghost(struct map_player map)
 
 void game_logic(struct information_of_player player, struct map_player map)
 {
+    srand(time(NULL));
     int pill = 0;
     int number_of_pills_get = 0;
 
@@ -352,7 +383,7 @@ void game_logic(struct information_of_player player, struct map_player map)
         }
         else
         {
-            map = move_ghost(map);
+            map = move_ghost(map,player,pill);
             display_the_map(map, player, number_of_pills_get);
             Sleep(700);
         }

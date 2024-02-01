@@ -12,7 +12,7 @@
 #define WHITE "\x1B[37m"
 #define CLEAR_SCREEN "\033[2J\033[H"
 
-struct sing_up_player
+struct sign_up_player
 {
     char name[100];
     char family[100];
@@ -21,12 +21,25 @@ struct sing_up_player
     char password[100];
     char status_of_game[20];
 } temp;
-
-//update file <information_of_players.txt> with new player
-void update_file(struct sing_up_player player)
+// check if the file existed or not
+int check_file_exist(char name_file[])
 {
     FILE *file;
-    file = fopen("D:\\pacman\\information_of_players.txt", "a");
+    file = fopen(name_file, "r");
+    if (file)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+// update file <information_of_players.txt> with new player
+void update_file(struct sign_up_player player)
+{
+    FILE *file;
+    file = fopen("D:\\pacman\\information_of_players.txt", "a+");
     fprintf(file, "%s %s %d %s %d %s\n", temp.name, temp.family, temp.id, temp.password, temp.level, temp.status_of_game);
     fclose(file);
 }
@@ -83,7 +96,7 @@ void sign_up()
     int input;
     do
     {
-        //It shows going to the registration form or going to the menu
+        // It shows going to the registration form or going to the menu
         display_sign_up(selected_of_button);
         input = getch();
         switch (input)
@@ -105,7 +118,7 @@ void sign_up()
         case 13: // Enter key
             switch (selected_of_button)
             {
-            case 0://Go to the registration form
+            case 0: // Go to the registration form
                 printf("\nEnter the name: ");
                 scanf("%s", temp.name);
                 printf("\nEnter the family:");
@@ -113,42 +126,61 @@ void sign_up()
                 printf("\nEnter the password: ");
                 scanf("%s", temp.password);
                 FILE *read_file;
-                read_file = fopen("D:\\pacman\\number_of_player.txt", "r");
-                int c;
-                fscanf(read_file, "%d", &c);
-                fclose(read_file);
-                c += 1;
-                temp.id = c;
-                FILE *write_file;
-                write_file = fopen("D:\\pacman\\number_of_player.txt", "w");
-                fprintf(write_file, "%d", c);
-                fclose(write_file);
                 temp.level = 0;
                 strcpy(temp.status_of_game, "finished");
                 int selected_of_button2 = 0;
                 int input1;
                 do
                 {
-                    //It shows whether the user is sure of his registration or not
+                    // It shows whether the user is sure of his registration or not
                     display_Yes_NO_SignUp(selected_of_button2);
                     input1 = getch();
                     switch (input1)
                     {
-                    case 72://upward
+                    case 72: // upward
                         selected_of_button2 -= 1;
                         if (selected_of_button2 < 0)
                             selected_of_button2 = 1;
                         break;
-                    case 80://downward
+                    case 80: // downward
                         selected_of_button2 += 1;
                         if (selected_of_button2 > 1)
                             selected_of_button2 = 0;
                         break;
-                    case 13://key_enter
+                    case 13: // key_enter
                         if (selected_of_button2 == 0)
                         {
-                            //It updates the file and adds a user to the file
+                            //give id to the temp
+                            int c;
+                            if (check_file_exist("D:\\pacman\\number_of_player.txt"))
+                            {
+                                read_file = fopen("D:\\pacman\\number_of_player.txt", "r");
+                                fscanf(read_file, "%d", &c);
+                                fclose(read_file);
+                            }
+                            else
+                            {
+                                FILE *writefile;
+                                writefile = fopen("D:\\pacman\\number_of_player.txt", "w");
+                                fprintf(writefile, "%d", 0);
+                                fclose(writefile);
+                                FILE *read_file;
+                                read_file = fopen("D:\\pacman\\number_of_player.txt", "r");
+                                fscanf(read_file, "%d", &c);
+                                fclose(read_file);
+                            }
+
+                            c += 1;
+                            temp.id = c;
+                            FILE *write_file;
+                            write_file = fopen("D:\\pacman\\number_of_player.txt", "w");
+                            fprintf(write_file, "%d", c);
+                            fclose(write_file);
+                            // It updates the file and adds a user to the file
                             update_file(temp);
+                            
+                            fprintf(write_file, "%d", c);
+                            fclose(write_file);
                             printf(GREEN "\nYour id is: " RESET);
                             printf("%d", temp.id);
                             printf(GREEN "\nYour password is: " RESET);
