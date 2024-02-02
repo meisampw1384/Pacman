@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include "pacman.h"
+#include <windows.h>
 #include <string.h>
 #define RESET "\x1B[0m"
 #define RED "\x1B[31m"
@@ -46,7 +47,7 @@ void update_file(struct sign_up_player player)
 
 void display_sign_up(int selected_of_button)
 {
-    printf(CLEAR_SCREEN);
+    system("cls");
     printf(YELLOW "                  Sign Up\n");
     printf("-----------------------------------------------" RESET "\n");
     for (int i = 0; i < 2; i++)
@@ -70,7 +71,7 @@ void display_sign_up(int selected_of_button)
 
 void display_Yes_NO_SignUp(int selected_of_button2)
 {
-    printf(CLEAR_SCREEN);
+    system("cls");
     printf("\nAre you sure about your registration information?\n");
     for (int i = 0; i < 2; i++)
     {

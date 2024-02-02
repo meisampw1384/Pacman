@@ -59,7 +59,7 @@ void update_file_information(int id, struct information_of_player player)
 
 void dispaly_pacman_menu(int selected_of_button5, struct information_of_player player)
 {
-    printf(CLEAR_SCREEN);
+    system("cls");
     printf(YELLOW "                 welcome to the pacman %s\n", player.name);
     printf("-----------------------------------------------------------------" RESET);
     printf("\nWhich level do you choose?\n");
@@ -88,7 +88,7 @@ void dispaly_pacman_menu(int selected_of_button5, struct information_of_player p
 
 void display_Yes_NO(int selected_of_button3, struct information_of_player player)
 {
-    printf(CLEAR_SCREEN);
+    system("cls");
     printf(YELLOW "                 welcome to the pacman %s\n", player.name);
     printf("----------------------------------------------------------------" RESET);
     printf("\nDo you want to continue your previous game?\n");

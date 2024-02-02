@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <windows.h>
 
 #define RESET "\x1B[0m"
 #define RED "\x1B[31m"
@@ -15,7 +16,7 @@
 
 void display(int selected_of_button)
 {
-    printf(CLEAR_SCREEN);
+    system("cls");
     printf(YELLOW "            Welcome to Pacman\n");
     printf("-----------------------------------------------" RESET "\n");
     for (int i = 0; i < 3; i++)

@@ -56,7 +56,7 @@ int confirmation(char *password, int id, struct information_of_all_players *_tem
 
 void display_login(int selected_of_button)
 {
-    printf(CLEAR_SCREEN);
+    system("cls");
     printf(YELLOW "                  Login\n");
     printf("-----------------------------------------------" RESET "\n");
     for (int i = 0; i < 2; i++)
@@ -125,16 +125,19 @@ void login()
                     player.level = temp_players[index].level;
                     strcpy(player.name, temp_players[index].name);
                     strcpy(player.status_of_game, temp_players[index].status_of_game);
+                    free(temp_players);
                     game_menu(player);
                 }
                 else
                 {
                     printf(RED "\nThe player is not found!\n" RESET);
                     sleep(3);
+                    free(temp_players);
                     login();
                 }
                 break;
             case 1://go to the main menu
+                free(temp_players);
                 menu_login();
                 break;
             }
