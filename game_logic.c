@@ -483,7 +483,7 @@ void game_logic(struct information_of_player player, struct map_player map)
         {
             map = move_ghost(map,player,pill);
             display_the_map(map, player, number_of_pills_get);
-            Sleep(700);
+            Sleep(500);
         }
     }
 }

@@ -21,7 +21,7 @@ int number_of_player;
 void num_of_player()
 {
     FILE *file;
-    file = fopen("D:\\pacman\\number_of_player.txt", "r");
+    file = fopen("number_of_player.txt", "r");
     fscanf(file, "%d", &number_of_player);
     fclose(file);
 }
@@ -33,7 +33,7 @@ struct information_of_all_players *temp_players;
 void read_all_players(struct information_of_all_players _temp_players[])
 {
     FILE *file;
-    file = fopen("D:\\pacman\\information_of_players.txt", "r");
+    file = fopen("information_of_players.txt", "r");
     for (int i = 0; i < number_of_player; i++)
     {
         fscanf(file, "%s %s %d %s %d %s\n", _temp_players[i].name, _temp_players[i].family, &_temp_players[i].id, _temp_players[i].password, &_temp_players[i].level, _temp_players[i].status_of_game);

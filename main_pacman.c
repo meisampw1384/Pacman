@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <windows.h>
 
 #define RESET "\x1B[0m"
@@ -86,5 +87,7 @@ void menu_login()
 
 int main()
 {
+
     menu_login();
+    return 0;
 }

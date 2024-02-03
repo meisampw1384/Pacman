@@ -8,16 +8,16 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
-                "D:\\pacman\\sign_up.c",
-                "D:\\pacman\\login.c",
-                "D:\\pacman\\game_menu.c",
-                "D:\\pacman\\game_logic.c",
+                "game_logic.c",
+                "game_menu.c",
+                "login.c",
+                "sign_up.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 ""
             ],
             "options": {
-                "cwd": "C:/msys64/ucrt64/bin"
+                "cwd": "D:/pacman"
             },
             "problemMatcher": [
                 "$gcc"

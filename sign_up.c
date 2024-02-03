@@ -40,7 +40,7 @@ int check_file_exist(char name_file[])
 void update_file(struct sign_up_player player)
 {
     FILE *file;
-    file = fopen("D:\\pacman\\information_of_players.txt", "a+");
+    file = fopen("information_of_players.txt", "a+");
     fprintf(file, "%s %s %d %s %d %s\n", temp.name, temp.family, temp.id, temp.password, temp.level, temp.status_of_game);
     fclose(file);
 }
@@ -153,20 +153,20 @@ void sign_up()
                         {
                             //give id to the temp
                             int c;
-                            if (check_file_exist("D:\\pacman\\number_of_player.txt"))
+                            if (check_file_exist("number_of_player.txt"))
                             {
-                                read_file = fopen("D:\\pacman\\number_of_player.txt", "r");
+                                read_file = fopen("number_of_player.txt", "r");
                                 fscanf(read_file, "%d", &c);
                                 fclose(read_file);
                             }
                             else
                             {
                                 FILE *writefile;
-                                writefile = fopen("D:\\pacman\\number_of_player.txt", "w");
+                                writefile = fopen("number_of_player.txt", "w");
                                 fprintf(writefile, "%d", 0);
                                 fclose(writefile);
                                 FILE *read_file;
-                                read_file = fopen("D:\\pacman\\number_of_player.txt", "r");
+                                read_file = fopen("number_of_player.txt", "r");
                                 fscanf(read_file, "%d", &c);
                                 fclose(read_file);
                             }
@@ -174,7 +174,7 @@ void sign_up()
                             c += 1;
                             temp.id = c;
                             FILE *write_file;
-                            write_file = fopen("D:\\pacman\\number_of_player.txt", "w");
+                            write_file = fopen("number_of_player.txt", "w");
                             fprintf(write_file, "%d", c);
                             fclose(write_file);
                             // It updates the file and adds a user to the file

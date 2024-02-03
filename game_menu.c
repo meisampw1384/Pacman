@@ -23,14 +23,14 @@ void update_file_information(int id, struct information_of_player player)
     int number_of_player;
 
     FILE *read_file_number_of_player;
-    read_file_number_of_player = fopen("D:\\pacman\\number_of_player.txt", "r");
+    read_file_number_of_player = fopen("number_of_player.txt", "r");
     fscanf(read_file_number_of_player, "%d", &number_of_player);
     fclose(read_file_number_of_player);
 
     struct information_of_all_players temp[number_of_player];
 
     FILE *read_file_information;
-    read_file_information = fopen("D:\\pacman\\information_of_players.txt", "r");
+    read_file_information = fopen("information_of_players.txt", "r");
     for (int i = 0; i < number_of_player; i++)
     {
         fscanf(read_file_information, "%s %s %d %s %d %s\n", temp[i].name,temp[i].family, &temp[i].id, temp[i].password, &temp[i].level, temp[i].status_of_game);
@@ -49,7 +49,7 @@ void update_file_information(int id, struct information_of_player player)
     }
 
     FILE *write_file_information;
-    write_file_information = fopen("D:\\pacman\\information_of_players.txt", "w");
+    write_file_information = fopen("information_of_players.txt", "w");
     for (int i = 0; i < number_of_player; i++)
     {
         fprintf(write_file_information, "%s %s %d %s %d %s\n", temp[i].name,temp[i].family, temp[i].id, temp[i].password, temp[i].level, temp[i].status_of_game);
@@ -196,17 +196,17 @@ void game_menu(struct information_of_player player)
                         case 13://enter key
                             if (selected_of_button4 == 0)//go to the mapA or easy
                             {
-                                readfile_map("D:\\pacman\\mapA.txt");
+                                readfile_map("mapA.txt");
                                 game_logic(player, player_map);
                             }
                             else if (selected_of_button4 == 1)//go to the mapB or medium
                             {
-                                readfile_map("D:\\pacman\\mapB.txt");
+                                readfile_map("mapB.txt");
                                 game_logic(player, player_map);
                             }
                             else if (selected_of_button4 == 2)//go to the mapC or hard
                             {
-                                readfile_map("D:\\pacman\\mapC.txt");
+                                readfile_map("mapC.txt");
                                 game_logic(player, player_map);
                             }
                         }
