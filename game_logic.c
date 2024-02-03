@@ -184,7 +184,7 @@ void display_the_map(struct map_player map, struct information_of_player player,
     }
     for (int i=0;i<(map.row)*4;i++){
         for (int j=0;j<map.column*5;j++){
-        printf("%c",updated_map[i][j]);
+        printf(YELLOW"%c",updated_map[i][j]);
         }
         printf("\n");
     }
