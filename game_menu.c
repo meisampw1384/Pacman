@@ -27,13 +27,13 @@ void update_file_information(int id, struct information_of_player player)
     fscanf(read_file_number_of_player, "%d", &number_of_player);
     fclose(read_file_number_of_player);
 
-    struct information_of_all_players temp[number_of_player];
+    struct information_of_player temp[number_of_player];
 
     FILE *read_file_information;
     read_file_information = fopen("information_of_players.txt", "r");
     for (int i = 0; i < number_of_player; i++)
     {
-        fscanf(read_file_information, "%s %s %d %s %d %s\n", temp[i].name,temp[i].family, &temp[i].id, temp[i].password, &temp[i].level, temp[i].status_of_game);
+        fscanf(read_file_information, "%s %s %d %s %d %s\n", temp[i].name, temp[i].family, &temp[i].id, temp[i].password, &temp[i].level, temp[i].status_of_game);
     }
     fclose(read_file_information);
 
@@ -52,7 +52,7 @@ void update_file_information(int id, struct information_of_player player)
     write_file_information = fopen("information_of_players.txt", "w");
     for (int i = 0; i < number_of_player; i++)
     {
-        fprintf(write_file_information, "%s %s %d %s %d %s\n", temp[i].name,temp[i].family, temp[i].id, temp[i].password, temp[i].level, temp[i].status_of_game);
+        fprintf(write_file_information, "%s %s %d %s %d %s\n", temp[i].name, temp[i].family, temp[i].id, temp[i].password, temp[i].level, temp[i].status_of_game);
     }
     fclose(write_file_information);
 }
@@ -135,76 +135,76 @@ void readfile_map(char name_file[])
 
 void game_menu(struct information_of_player player)
 {
-    if (strcmp(player.status_of_game, "finished") != 0)
+    if (strcmp(player.status_of_game, "finished") != 0)//The player continues with his previous game
     {
         int selected_of_button3 = 0;
         int input3;
         do
         {
-            //It tells the player whether he wants to continue his last game or not
+            // It tells the player whether he wants to continue his last game or not
             display_Yes_NO(selected_of_button3, player);
             input3 = getch();
             switch (input3)
             {
-            case 72://upward
+            case 72: // upward
                 selected_of_button3 -= 1;
                 if (selected_of_button3 < 0)
                     selected_of_button3 = 1;
                 break;
-            case 80://downward
+            case 80: // downward
                 selected_of_button3 += 1;
                 if (selected_of_button3 > 1)
                     selected_of_button3 = 0;
                 break;
-            case 13://enter key
-                if (selected_of_button3 == 0)//Continuation of the previous game
+            case 13:// enter key
+                if (selected_of_button3 == 0) // Continuation of the previous game
                 {
                     char str_id[20];
                     sprintf(str_id, "%d", player.id);
-                    readfile_map(str_id);//Read the previous game map
+                    readfile_map(str_id); // Read the previous game map
                     game_logic(player, player_map);
                 }
-                else
+                else//The player does not continue his previous game
                 {
                     int selected_of_button4;
                     int input4;
                     do
                     {
-                        //It shows what level of the game the user wants to try?
+                        // It shows what level of the game the user wants to try?
                         dispaly_pacman_menu(selected_of_button4, player);
                         input4 = getch();
                         switch (input4)
                         {
-                        case 72://upward
+                        case 72: // upward
                             selected_of_button4 -= 1;
                             if (selected_of_button4 < 0)
                             {
                                 selected_of_button4 = 2;
                             }
                             break;
-                        case 80://downward
+                        case 80: // downward
                             selected_of_button4 += 1;
                             if (selected_of_button4 > 2)
                             {
                                 selected_of_button4 = 0;
                             }
                             break;
-                        case 27://esc key
+                        case 27: // esc key
                             update_file_information(player.id, player);
                             exit(0);
                             break;
-                        case 13://enter key
-                            if (selected_of_button4 == 0)//go to the mapA or easy
+                        case 13:                          // enter key
+                            if (selected_of_button4 == 0) // go to the mapA or easy
                             {
                                 readfile_map("mapA.txt");
                                 game_logic(player, player_map);
                             }
-                            else if (selected_of_button4 == 1)//go to the mapB or medium
+                            else if (selected_of_button4 == 1) // go to the mapB or medium
                             {
                                 readfile_map("mapB.txt");
                                 game_logic(player, player_map);
                             }
-                            else if (selected_of_button4 == 2)//go to the mapC or hard
+                            else if (selected_of_button4 == 2) // go to the mapC or hard
                             {
                                 readfile_map("mapC.txt");
                                 game_logic(player, player_map);
@@ -215,35 +215,36 @@ void game_menu(struct information_of_player player)
             }
         } while (input3 != 13);
     }
-    else
+    else////The player does not continue his previous game
     {
         int selected_of_button5 = 0;
         int input5;
         do
         {
+            // It shows what level of the game the user wants to try?
             dispaly_pacman_menu(selected_of_button5, player);
             input5 = getch();
             switch (input5)
             {
-            case 72:
+            case 72://upward
                 selected_of_button5 -= 1;
                 if (selected_of_button5 < 0)
                 {
                     selected_of_button5 = 2;
                 }
                 break;
-            case 80:
+            case 80://downward
                 selected_of_button5 += 1;
                 if (selected_of_button5 > 2)
                 {
                     selected_of_button5 = 0;
                 }
                 break;
-            case 27:
+            case 27://esc (exit from program)
                 update_file_information(player.id, player);
                 exit(0);
                 break;
-            case 13:
+            case 13://enter key
                 if (selected_of_button5 == 0)
                 {
                     readfile_map("D:\\pacman\\mapA.txt");

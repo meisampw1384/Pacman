@@ -32,14 +32,14 @@ void writefile_map_for_player(struct map_player map, const char name_file[])
     }
     fclose(write_file_map);
 }
-
+//swap the array elements
 void move_array_elements(struct map_player map, int row1, int column1, int row2, int column2)
 {
     char temp = map.map[row1][column1];
     map.map[row1][column1] = map.map[row2][column2];
     map.map[row2][column2] = temp;
 }
-
+//If the player wins, it will show the player the information about winning the game
 void display_win_the_game(struct information_of_player player)
 {
     system("cls");
@@ -51,6 +51,7 @@ void display_win_the_game(struct information_of_player player)
     sleep(5);
     game_menu(player);
 }
+//if the player lose, it will show the player the information about losing the game
 void display_lose_the_game(struct information_of_player player)
 {
     system("cls");
@@ -62,7 +63,7 @@ void display_lose_the_game(struct information_of_player player)
     sleep(5);
     game_menu(player);
 }
-
+//diplsay player he wants save the game or not
 void display_Yes_NO_SaveTheGame(int selected_of_button2)
 {
     system("cls");
@@ -85,117 +86,134 @@ void display_Yes_NO_SaveTheGame(int selected_of_button2)
         }
     }
 }
-
+//show the map for player 
 void display_the_map(struct map_player map, struct information_of_player player, int pill)
 {
     system("cls");
     char **updated_map;
-    updated_map=(char **)malloc(sizeof(char *)*map.row*4);
-    for (int i=0;i<map.row*4;i++){
-        updated_map[i]=(char *)malloc(sizeof(char)*map.column*5);
+    updated_map = (char **)malloc(sizeof(char *) * map.row * 4);
+    for (int i = 0; i < map.row * 4; i++)
+    {
+        updated_map[i] = (char *)malloc(sizeof(char) * map.column * 5);
     }
 
-    printf(BLUE "name: %s    number of pills earned: %d   level: %d\n\n" RESET, player.name, pill, player.level);
-    for (int i=0;i<map.row;i++){
-        for (int j=0;j<map.column;j++){
-            if (map.map[i][j]=='-'||map.map[i][j]=='|'){
-                for (int k=0;k<4;k++){
-                    for (int z=0;z<5;z++){
-                        updated_map[i*4+k][j*5+z]='.';
+    printf(BLUE "name: %s %s   number of pills earned: %d   level: %d\n\n" RESET, player.name,player.family, pill, player.level);
+    for (int i = 0; i < map.row; i++)
+    {
+        for (int j = 0; j < map.column; j++)
+        {
+            if (map.map[i][j] == '-' || map.map[i][j] == '|')
+            {
+                for (int k = 0; k < 4; k++)
+                {
+                    for (int z = 0; z < 5; z++)
+                    {
+                        updated_map[i * 4 + k][j * 5 + z] = '.';
                     }
-                    
                 }
             }
-            else if (map.map[i][j]=='P'){
-                updated_map[i*4+0][j*5+0]=' ';
-                updated_map[i*4+0][j*5+1]=' ';
-                updated_map[i*4+0][j*5+2]=' ';
-                updated_map[i*4+0][j*5+3]=' ';
-                updated_map[i*4+0][j*5+4]=' ';
-                updated_map[i*4+1][j*5+0]=' ';
-                updated_map[i*4+1][j*5+1]='.';
-                updated_map[i*4+1][j*5+2]='-';
-                updated_map[i*4+1][j*5+3]='.';
-                updated_map[i*4+1][j*5+4]=' ';
-                updated_map[i*4+2][j*5+0]=' ';
-                updated_map[i*4+2][j*5+1]='\'';
-                updated_map[i*4+2][j*5+2]='-';
-                updated_map[i*4+2][j*5+3]='\'';
-                updated_map[i*4+2][j*5+4]=' ';
-                updated_map[i*4+3][j*5+0]=' ';
-                updated_map[i*4+3][j*5+1]=' ';
-                updated_map[i*4+3][j*5+2]=' ';
-                updated_map[i*4+3][j*5+3]=' ';
-                updated_map[i*4+3][j*5+4]=' ';
+            else if (map.map[i][j] == 'P')
+            {
+                updated_map[i * 4 + 0][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 0][j * 5 + 1] = ' ';
+                updated_map[i * 4 + 0][j * 5 + 2] = ' ';
+                updated_map[i * 4 + 0][j * 5 + 3] = ' ';
+                updated_map[i * 4 + 0][j * 5 + 4] = ' ';
+                updated_map[i * 4 + 1][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 1][j * 5 + 1] = '.';
+                updated_map[i * 4 + 1][j * 5 + 2] = '-';
+                updated_map[i * 4 + 1][j * 5 + 3] = '.';
+                updated_map[i * 4 + 1][j * 5 + 4] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 1] = '\'';
+                updated_map[i * 4 + 2][j * 5 + 2] = '-';
+                updated_map[i * 4 + 2][j * 5 + 3] = '\'';
+                updated_map[i * 4 + 2][j * 5 + 4] = ' ';
+                updated_map[i * 4 + 3][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 3][j * 5 + 1] = ' ';
+                updated_map[i * 4 + 3][j * 5 + 2] = ' ';
+                updated_map[i * 4 + 3][j * 5 + 3] = ' ';
+                updated_map[i * 4 + 3][j * 5 + 4] = ' ';
             }
-            else if (map.map[i][j]=='F'){
-                updated_map[i*4+0][j*5+0]=' ';
-                updated_map[i*4+0][j*5+1]='.';
-                updated_map[i*4+0][j*5+2]='-';
-                updated_map[i*4+0][j*5+3]='.';
-                updated_map[i*4+0][j*5+4]=' ';
-                updated_map[i*4+1][j*5+0]='|';
-                updated_map[i*4+1][j*5+1]=' ';
-                updated_map[i*4+1][j*5+2]='O';
-                updated_map[i*4+1][j*5+3]='O';
-                updated_map[i*4+1][j*5+4]='|';
-                updated_map[i*4+2][j*5+0]='|';
-                updated_map[i*4+2][j*5+1]=' ';
-                updated_map[i*4+2][j*5+2]=' ';
-                updated_map[i*4+2][j*5+3]=' ';
-                updated_map[i*4+2][j*5+4]='|';
-                updated_map[i*4+3][j*5+0]='^';
-                updated_map[i*4+3][j*5+1]='^';
-                updated_map[i*4+3][j*5+2]='^';
-                updated_map[i*4+3][j*5+3]='^';
-                updated_map[i*4+3][j*5+4]='^';
+            else if (map.map[i][j] == 'F')
+            {
+                updated_map[i * 4 + 0][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 0][j * 5 + 1] = '.';
+                updated_map[i * 4 + 0][j * 5 + 2] = '-';
+                updated_map[i * 4 + 0][j * 5 + 3] = '.';
+                updated_map[i * 4 + 0][j * 5 + 4] = ' ';
+                updated_map[i * 4 + 1][j * 5 + 0] = '|';
+                updated_map[i * 4 + 1][j * 5 + 1] = ' ';
+                updated_map[i * 4 + 1][j * 5 + 2] = 'O';
+                updated_map[i * 4 + 1][j * 5 + 3] = 'O';
+                updated_map[i * 4 + 1][j * 5 + 4] = '|';
+                updated_map[i * 4 + 2][j * 5 + 0] = '|';
+                updated_map[i * 4 + 2][j * 5 + 1] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 2] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 3] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 4] = '|';
+                updated_map[i * 4 + 3][j * 5 + 0] = '^';
+                updated_map[i * 4 + 3][j * 5 + 1] = '^';
+                updated_map[i * 4 + 3][j * 5 + 2] = '^';
+                updated_map[i * 4 + 3][j * 5 + 3] = '^';
+                updated_map[i * 4 + 3][j * 5 + 4] = '^';
             }
-            else if (map.map[i][j]=='@'){
-                updated_map[i*4+0][j*5+0]=' ';
-                updated_map[i*4+0][j*5+1]='.';
-                updated_map[i*4+0][j*5+2]='-';
-                updated_map[i*4+0][j*5+3]='-';
-                updated_map[i*4+0][j*5+4]='.';
-                updated_map[i*4+1][j*5+0]='/';
-                updated_map[i*4+1][j*5+1]=' ';
-                updated_map[i*4+1][j*5+2]=' ';
-                updated_map[i*4+1][j*5+3]='O';
-                updated_map[i*4+1][j*5+4]='/';
-                updated_map[i*4+2][j*5+0]='\\';
-                updated_map[i*4+2][j*5+1]=' ';
-                updated_map[i*4+2][j*5+2]=' ';
-                updated_map[i*4+2][j*5+3]=' ';
-                updated_map[i*4+2][j*5+4]='\\';
-                updated_map[i*4+3][j*5+0]=' ';
-                updated_map[i*4+3][j*5+1]='\'';
-                updated_map[i*4+3][j*5+2]='-';
-                updated_map[i*4+3][j*5+3]='-';
-                updated_map[i*4+3][j*5+4]='\'';
+            else if (map.map[i][j] == '@')
+            {
+                updated_map[i * 4 + 0][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 0][j * 5 + 1] = '.';
+                updated_map[i * 4 + 0][j * 5 + 2] = '-';
+                updated_map[i * 4 + 0][j * 5 + 3] = '-';
+                updated_map[i * 4 + 0][j * 5 + 4] = '.';
+                updated_map[i * 4 + 1][j * 5 + 0] = '/';
+                updated_map[i * 4 + 1][j * 5 + 1] = ' ';
+                updated_map[i * 4 + 1][j * 5 + 2] = ' ';
+                updated_map[i * 4 + 1][j * 5 + 3] = 'O';
+                updated_map[i * 4 + 1][j * 5 + 4] = '/';
+                updated_map[i * 4 + 2][j * 5 + 0] = '\\';
+                updated_map[i * 4 + 2][j * 5 + 1] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 2] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 3] = ' ';
+                updated_map[i * 4 + 2][j * 5 + 4] = '\\';
+                updated_map[i * 4 + 3][j * 5 + 0] = ' ';
+                updated_map[i * 4 + 3][j * 5 + 1] = '\'';
+                updated_map[i * 4 + 3][j * 5 + 2] = '-';
+                updated_map[i * 4 + 3][j * 5 + 3] = '-';
+                updated_map[i * 4 + 3][j * 5 + 4] = '\'';
                 ;
             }
-            else if (map.map[i][j]=='.'){
-                for (int u=0;u<4;u++){
-                    for (int c=0;c<5;c++){
-                        updated_map[i*4+u][j*5+c]=' ';
+            else if (map.map[i][j] == '.')
+            {
+                for (int u = 0; u < 4; u++)
+                {
+                    for (int c = 0; c < 5; c++)
+                    {
+                        updated_map[i * 4 + u][j * 5 + c] = ' ';
                     }
                 }
             }
         }
     }
-    for (int i=0;i<(map.row)*4;i++){
-        for (int j=0;j<map.column*5;j++){
-        printf(YELLOW"%c",updated_map[i][j]);
+
+    for (int i = 0; i < (map.row) * 4; i++)
+    {
+        for (int j = 0; j < map.column * 5; j++)
+        {
+            printf(YELLOW "%c", updated_map[i][j]);
         }
         printf("\n");
     }
-    for (int i=0;i<map.row*4;i++){
+
+    for (int i = 0; i < map.row * 4; i++)
+    {
         free(updated_map[i]);
     }
     free(updated_map);
+    
     printf(RED "\n\nPress on <esc> for Exit" RESET);
 }
 // move ghost random
-struct map_player move_ghost(struct map_player map,struct information_of_player player,int pill)
+struct map_player move_ghost(struct map_player map, struct information_of_player player, int pill)
 {
     struct map_player updated_map;
     updated_map.row = map.row;
@@ -210,59 +228,62 @@ struct map_player move_ghost(struct map_player map,struct information_of_player 
         strcpy(updated_map.map[i], map.map[i]);
     }
 
-
     for (int i = 0; i < map.row; i++)
     {
         for (int j = 0; j < map.column; j++)
         {
             if (map.map[i][j] == 'F')
             {
-                int random_number=rand()%4;
+                int random_number = rand() % 4;
 
-                if (random_number==0&&map.map[i][j - 1] != '-'&& map.map[i][j - 1] != '|'&& map.map[i][j - 1] != 'P'&& map.map[i][j - 1] != 'F')//move ghost left
+                if (random_number == 0 && map.map[i][j - 1] != '-' && map.map[i][j - 1] != '|' && map.map[i][j - 1] != 'P' && map.map[i][j - 1] != 'F') // move ghost left
                 {
-                   if (map.map[i][j-1]!='@')
-                    move_array_elements(updated_map, i, j, i, j-1);
-                    else {
-                        move_array_elements(updated_map, i, j, i, j-1);
-                        updated_map.map[i][j]='.';
-                        display_the_map(updated_map,player,pill);
+                    if (map.map[i][j - 1] != '@')
+                        move_array_elements(updated_map, i, j, i, j - 1);
+                    else
+                    {
+                        move_array_elements(updated_map, i, j, i, j - 1);
+                        updated_map.map[i][j] = '.';
+                        display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
                     }
                 }
-                else if (random_number==1&&map.map[i][j + 1] != '-'&&map.map[i][j + 1] != '|'&&map.map[i][j + 1] != 'P'&&map.map[i][j + 1] != 'F')//move ghost right
+                else if (random_number == 1 && map.map[i][j + 1] != '-' && map.map[i][j + 1] != '|' && map.map[i][j + 1] != 'P' && map.map[i][j + 1] != 'F') // move ghost right
                 {
-                    if (map.map[i][j+1]!='@')
-                    move_array_elements(updated_map, i, j, i , j+1);
-                    else {
-                        move_array_elements(updated_map, i, j, i + 1, j+1);
-                        updated_map.map[i][j]='.';
-                        display_the_map(updated_map,player,pill);
+                    if (map.map[i][j + 1] != '@')
+                        move_array_elements(updated_map, i, j, i, j + 1);
+                    else
+                    {
+                        move_array_elements(updated_map, i, j, i + 1, j + 1);
+                        updated_map.map[i][j] = '.';
+                        display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
                     }
                 }
-                else if ( random_number==2&&map.map[i - 1][j] != '-'&& map.map[i - 1][j] != '|'&& map.map[i - 1][j] != 'P'&& map.map[i - 1][j] != 'F')//move ghost up
+                else if (random_number == 2 && map.map[i - 1][j] != '-' && map.map[i - 1][j] != '|' && map.map[i - 1][j] != 'P' && map.map[i - 1][j] != 'F') // move ghost up
                 {
-                    if (map.map[i-1][j]!='@')
-                    move_array_elements(updated_map, i, j, i - 1, j);
-                    else {
+                    if (map.map[i - 1][j] != '@')
                         move_array_elements(updated_map, i, j, i - 1, j);
-                        updated_map.map[i][j]='.';
-                        display_the_map(updated_map,player,pill);
+                    else
+                    {
+                        move_array_elements(updated_map, i, j, i - 1, j);
+                        updated_map.map[i][j] = '.';
+                        display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
                     }
                 }
-                else if (random_number==3&& map.map[i + 1][j] != '-'&& map.map[i + 1][j] != '|'&& map.map[i + 1][j] != 'P'&& map.map[i + 1][j] != 'F')//move ghost down
+                else if (random_number == 3 && map.map[i + 1][j] != '-' && map.map[i + 1][j] != '|' && map.map[i + 1][j] != 'P' && map.map[i + 1][j] != 'F') // move ghost down
                 {
-                    if (map.map[i+1][j]!='@')
-                    move_array_elements(updated_map, i, j, i + 1, j);
-                    else {
+                    if (map.map[i + 1][j] != '@')
                         move_array_elements(updated_map, i, j, i + 1, j);
-                        updated_map.map[i][j]='.';
-                        display_the_map(updated_map,player,pill);
+                    else
+                    {
+                        move_array_elements(updated_map, i, j, i + 1, j);
+                        updated_map.map[i][j] = '.';
+                        display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
                     }
@@ -481,7 +502,7 @@ void game_logic(struct information_of_player player, struct map_player map)
         }
         else
         {
-            map = move_ghost(map,player,pill);
+            map = move_ghost(map, player, pill);
             display_the_map(map, player, number_of_pills_get);
             Sleep(500);
         }

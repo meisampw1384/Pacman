@@ -13,15 +13,8 @@
 #define WHITE "\x1B[37m"
 #define CLEAR_SCREEN "\033[2J\033[H"
 
-struct sign_up_player
-{
-    char name[100];
-    char family[100];
-    int id;
-    int level;
-    char password[100];
-    char status_of_game[20];
-} temp;
+struct information_of_player temp;
+
 // check if the file existed or not
 int check_file_exist(char name_file[])
 {
@@ -37,7 +30,7 @@ int check_file_exist(char name_file[])
     }
 }
 // update file <information_of_players.txt> with new player
-void update_file(struct sign_up_player player)
+void update_file(struct information_of_player player)
 {
     FILE *file;
     file = fopen("information_of_players.txt", "a+");
@@ -91,6 +84,7 @@ void display_Yes_NO_SignUp(int selected_of_button2)
         }
     }
 }
+
 void sign_up()
 {
     int selected_of_button = 0;
@@ -148,10 +142,10 @@ void sign_up()
                         if (selected_of_button2 > 1)
                             selected_of_button2 = 0;
                         break;
-                    case 13: // key_enter
-                        if (selected_of_button2 == 0)
+                    case 13:                          // key_enter
+                        if (selected_of_button2 == 0) // Yes for sign up
                         {
-                            //give id to the temp
+                            // give id to the temp
                             int c;
                             if (check_file_exist("number_of_player.txt"))
                             {
@@ -159,7 +153,7 @@ void sign_up()
                                 fscanf(read_file, "%d", &c);
                                 fclose(read_file);
                             }
-                            else
+                            else // the file does not exist
                             {
                                 FILE *writefile;
                                 writefile = fopen("number_of_player.txt", "w");
@@ -179,7 +173,7 @@ void sign_up()
                             fclose(write_file);
                             // It updates the file and adds a user to the file
                             update_file(temp);
-                            
+
                             fprintf(write_file, "%d", c);
                             fclose(write_file);
                             printf(GREEN "\nYour id is: " RESET);
@@ -197,7 +191,7 @@ void sign_up()
                                 }
                             } while (input2 != 13);
                         }
-                        else
+                        else // No for sign up
                         {
                             sign_up();
                         }
@@ -205,7 +199,7 @@ void sign_up()
                     }
                 } while (input1 != 13);
                 break;
-            case 1:
+            case 1://go back to the menu
                 menu_login();
                 break;
             }

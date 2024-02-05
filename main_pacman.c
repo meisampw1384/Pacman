@@ -47,8 +47,8 @@ void menu_login()
     int selected_button = 0;
     int input;
     do
-    {       
-        display(selected_button);//display sign up and login and exit
+    {
+        display(selected_button); // display sign up and login and exit
         input = getch();
 
         switch (input)
