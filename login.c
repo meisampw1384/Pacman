@@ -27,10 +27,10 @@ void num_of_player()
 }
 
 struct information_of_player player;
-struct information_of_all_players *temp_players;
+struct information_of_player *temp_players;
 
-//get all players in the file and save it in the temp_players
-void read_all_players(struct information_of_all_players _temp_players[])
+// get all players in the file and save it in the temp_players
+void read_all_players(struct information_of_player _temp_players[])
 {
     FILE *file;
     file = fopen("information_of_players.txt", "r");
@@ -41,8 +41,8 @@ void read_all_players(struct information_of_all_players _temp_players[])
     fclose(file);
 }
 
-//checks whether such a user exists in the file or not
-int confirmation(char *password, int id, struct information_of_all_players *_temp_players)
+// checks whether such a user exists in the file or not
+int confirmation(char *password, int id, struct information_of_player *_temp_players)
 {
     for (int i = 0; i < number_of_player; i++)
     {
@@ -72,7 +72,7 @@ void display_login(int selected_of_button)
             printf("Go to the login form\n");
             break;
         case 1:
-            printf("Go back to the menu_login\n");
+            printf("Go back to the main menu\n");
             break;
         }
     }
@@ -81,14 +81,14 @@ void display_login(int selected_of_button)
 void login()
 {
 
-    num_of_player();//It takes the number of players and save it in the number_of_player.txt
-    temp_players = (struct information_of_all_players *)malloc(sizeof(struct information_of_all_players) * number_of_player);
-    read_all_players(temp_players);//save all player in temp_player
+    num_of_player(); // It takes the number of players and save it in the number_of_player.txt
+    temp_players = (struct information_of_player *)malloc(sizeof(struct information_of_player) * number_of_player);
+    read_all_players(temp_players); // save all player in temp_player
     int selected_of_button = 0;
     int input;
     do
     {
-        //Indicates whether the user wants to go to the menu or to the login form
+        // Indicates whether the user wants to go to the menu or to the login form
         display_login(selected_of_button);
         input = getch();
         switch (input)
@@ -110,7 +110,7 @@ void login()
         case 13: // Enter key
             switch (selected_of_button)
             {
-            case 0://go to the login form
+            case 0: // go to the login form
                 int id;
                 printf("\nEnter the id: ");
                 scanf("%d", &id);
@@ -136,7 +136,7 @@ void login()
                     login();
                 }
                 break;
-            case 1://go to the main menu
+            case 1: // go to the main menu
                 free(temp_players);
                 menu_login();
                 break;
