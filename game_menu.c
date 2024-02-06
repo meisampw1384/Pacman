@@ -43,7 +43,6 @@ void update_file_information(int id, struct information_of_player player)
         {
             strcpy(temp[i].status_of_game, player.status_of_game);
             temp[i].level = player.level;
-            strcpy(temp[i].status_of_game, player.status_of_game);
             break;
         }
     }
@@ -135,7 +134,7 @@ void readfile_map(char name_file[])
 
 void game_menu(struct information_of_player player)
 {
-    if (strcmp(player.status_of_game, "finished") != 0)//The player continues with his previous game
+    if (strcmp(player.status_of_game, "finished") != 0) // The player continues with his previous game
     {
         int selected_of_button3 = 0;
         int input3;
@@ -156,7 +155,7 @@ void game_menu(struct information_of_player player)
                 if (selected_of_button3 > 1)
                     selected_of_button3 = 0;
                 break;
-            case 13:// enter key
+            case 13:                          // enter key
                 if (selected_of_button3 == 0) // Continuation of the previous game
                 {
                     char str_id[20];
@@ -164,7 +163,7 @@ void game_menu(struct information_of_player player)
                     readfile_map(str_id); // Read the previous game map
                     game_logic(player, player_map);
                 }
-                else//The player does not continue his previous game
+                else // The player does not continue his previous game
                 {
                     int selected_of_button4;
                     int input4;
@@ -191,6 +190,11 @@ void game_menu(struct information_of_player player)
                             break;
                         case 27: // esc key
                             update_file_information(player.id, player);
+                            for (int i = 0; i < player_map.row; i++)
+                            {
+                                free(player_map.map[i]);
+                            }
+                            free(player_map.map);
                             exit(0);
                             break;
                         case 13:                          // enter key
@@ -215,7 +219,7 @@ void game_menu(struct information_of_player player)
             }
         } while (input3 != 13);
     }
-    else////The player does not continue his previous game
+    else ////The player does not continue his previous game
     {
         int selected_of_button5 = 0;
         int input5;
@@ -226,38 +230,43 @@ void game_menu(struct information_of_player player)
             input5 = getch();
             switch (input5)
             {
-            case 72://upward
+            case 72: // upward
                 selected_of_button5 -= 1;
                 if (selected_of_button5 < 0)
                 {
                     selected_of_button5 = 2;
                 }
                 break;
-            case 80://downward
+            case 80: // downward
                 selected_of_button5 += 1;
                 if (selected_of_button5 > 2)
                 {
                     selected_of_button5 = 0;
                 }
                 break;
-            case 27://esc (exit from program)
+            case 27: // esc (exit from program)
                 update_file_information(player.id, player);
+                for (int i = 0; i < player_map.row; i++)
+                {
+                    free(player_map.map[i]);
+                }
+                free(player_map.map);
                 exit(0);
                 break;
-            case 13://enter key
+            case 13: // enter key
                 if (selected_of_button5 == 0)
                 {
-                    readfile_map("D:\\pacman\\mapA.txt");
+                    readfile_map("mapA.txt");
                     game_logic(player, player_map);
                 }
                 else if (selected_of_button5 == 1)
                 {
-                    readfile_map("D:\\pacman\\mapB.txt");
+                    readfile_map("mapB.txt");
                     game_logic(player, player_map);
                 }
                 else if (selected_of_button5 == 2)
                 {
-                    readfile_map("D:\\pacman\\mapC.txt");
+                    readfile_map("mapC.txt");
                     game_logic(player, player_map);
                 }
             }

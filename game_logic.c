@@ -32,14 +32,14 @@ void writefile_map_for_player(struct map_player map, const char name_file[])
     }
     fclose(write_file_map);
 }
-//swap the array elements
+// swap the array elements
 void move_array_elements(struct map_player map, int row1, int column1, int row2, int column2)
 {
     char temp = map.map[row1][column1];
     map.map[row1][column1] = map.map[row2][column2];
     map.map[row2][column2] = temp;
 }
-//If the player wins, it will show the player the information about winning the game
+// If the player wins, it will show the player the information about winning the game
 void display_win_the_game(struct information_of_player player)
 {
     system("cls");
@@ -51,7 +51,7 @@ void display_win_the_game(struct information_of_player player)
     sleep(5);
     game_menu(player);
 }
-//if the player lose, it will show the player the information about losing the game
+// if the player lose, it will show the player the information about losing the game
 void display_lose_the_game(struct information_of_player player)
 {
     system("cls");
@@ -63,7 +63,7 @@ void display_lose_the_game(struct information_of_player player)
     sleep(5);
     game_menu(player);
 }
-//diplsay player he wants save the game or not
+// diplsay player he wants save the game or not
 void display_Yes_NO_SaveTheGame(int selected_of_button2)
 {
     system("cls");
@@ -86,7 +86,7 @@ void display_Yes_NO_SaveTheGame(int selected_of_button2)
         }
     }
 }
-//show the map for player 
+// show the map for player
 void display_the_map(struct map_player map, struct information_of_player player, int pill)
 {
     system("cls");
@@ -97,7 +97,7 @@ void display_the_map(struct map_player map, struct information_of_player player,
         updated_map[i] = (char *)malloc(sizeof(char) * map.column * 5);
     }
 
-    printf(BLUE "name: %s %s   number of pills earned: %d   level: %d\n\n" RESET, player.name,player.family, pill, player.level);
+    printf(BLUE "name: %s %s   number of pills earned: %d   level: %d\n\n" RESET, player.name, player.family, pill, player.level);
     for (int i = 0; i < map.row; i++)
     {
         for (int j = 0; j < map.column; j++)
@@ -209,7 +209,7 @@ void display_the_map(struct map_player map, struct information_of_player player,
         free(updated_map[i]);
     }
     free(updated_map);
-    
+
     printf(RED "\n\nPress on <esc> for Exit" RESET);
 }
 // move ghost random
@@ -234,55 +234,549 @@ struct map_player move_ghost(struct map_player map, struct information_of_player
         {
             if (map.map[i][j] == 'F')
             {
-                int random_number = rand() % 4;
+                // Four directions are open
+                if ((map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@') && (map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@') && (map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@'))
+                {
+                    int random_number = rand() % 4;
 
-                if (random_number == 0 && map.map[i][j - 1] != '-' && map.map[i][j - 1] != '|' && map.map[i][j - 1] != 'P' && map.map[i][j - 1] != 'F') // move ghost left
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 2)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 3)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up and right and left is open
+                else if ((map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@') && (map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@'))
                 {
-                    if (map.map[i][j - 1] != '@')
-                        move_array_elements(updated_map, i, j, i, j - 1);
+                    int random_number = rand() % 3;
+
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+
+                    else if (random_number == 2)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up and left and down is open
+                else if ((map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@') && (map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@'))
+                {
+                    int random_number = rand() % 3;
+
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+
+                    else if (random_number == 2)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // down and left and right is open
+                else if ((map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@') && (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@') && (map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@'))
+                {
+                    int random_number = rand() % 3;
+
+                    if (random_number == 0)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+
+                    else if (random_number == 2)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up and right and down is open
+                else if ((map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@') && (map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@'))
+                {
+                    int random_number = rand() % 3;
+
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+
+                    else if (random_number == 2)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up and left is open
+                else if ((map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@'))
+                {
+                    int random_number = rand() % 2;
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] == '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up and right is open
+                else if ((map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@'))
+                {
+                    int random_number = rand() % 2;
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] == '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up and down is open
+                else if ((map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@') && (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@'))
+                {
+                    int random_number = rand() % 2;
+                    if (random_number == 0)
+                    { // go up
+                        if (map.map[i - 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i - 1, j);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] == '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // down and right
+                else if ((map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@') && (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@'))
+                {
+                    int random_number = rand() % 2;
+                    if (random_number == 0)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] == '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // down and left is open
+                else if ((map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@') && (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@'))
+                {
+                    int random_number = rand() % 2;
+                    if (random_number == 0)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go down
+                        if (map.map[i + 1][j] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i + 1, j);
+                            updated_map.map[i][j] == '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // right and left is open
+                else if ((map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@') && (map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@'))
+                {
+                    int random_number = rand() % 2;
+                    if (random_number == 0)
+                    { // go left
+                        if (map.map[i][j - 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j - 1);
+                            updated_map.map[i][j] = '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                    else if (random_number == 1)
+                    { // go right
+                        if (map.map[i][j + 1] == '.')
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                        }
+                        else
+                        {
+                            move_array_elements(updated_map, i, j, i, j + 1);
+                            updated_map.map[i][j] == '.';
+                            display_the_map(updated_map, player, pill);
+                            sleep(1);
+                            display_lose_the_game(player);
+                        }
+                    }
+                }
+                // up is open
+                else if (map.map[i - 1][j] == '.' || map.map[i - 1][j] == '@')
+                {
+                    if (map.map[i - 1][j] == '.')
+                    {
+                        move_array_elements(updated_map, i, j, i - 1, j);
+                    }
                     else
                     {
-                        move_array_elements(updated_map, i, j, i, j - 1);
-                        updated_map.map[i][j] = '.';
+                        move_array_elements(updated_map, i, j, i - 1, j);
+                        updated_map.map[i][j] == '.';
                         display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
                     }
                 }
-                else if (random_number == 1 && map.map[i][j + 1] != '-' && map.map[i][j + 1] != '|' && map.map[i][j + 1] != 'P' && map.map[i][j + 1] != 'F') // move ghost right
+                // down is open
+                else if (map.map[i + 1][j] == '.' || map.map[i + 1][j] == '@')
                 {
-                    if (map.map[i][j + 1] != '@')
+                    if (map.map[i + 1][j] == '.')
+                    {
+                        move_array_elements(updated_map, i, j, i + 1, j);
+                    }
+                    else
+                    {
+                        move_array_elements(updated_map, i, j, i + 1, j);
+                        updated_map.map[i][j] == '.';
+                        display_the_map(updated_map, player, pill);
+                        sleep(1);
+                        display_lose_the_game(player);
+                    }
+                }
+                // right is open
+                else if (map.map[i][j + 1] == '.' || map.map[i][j + 1] == '@')
+                {
+                    if (map.map[i][j + 1] == '.')
+                    {
                         move_array_elements(updated_map, i, j, i, j + 1);
+                    }
                     else
                     {
-                        move_array_elements(updated_map, i, j, i + 1, j + 1);
-                        updated_map.map[i][j] = '.';
+                        move_array_elements(updated_map, i, j, i, j + 1);
+                        updated_map.map[i][j] == '.';
                         display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
                     }
                 }
-                else if (random_number == 2 && map.map[i - 1][j] != '-' && map.map[i - 1][j] != '|' && map.map[i - 1][j] != 'P' && map.map[i - 1][j] != 'F') // move ghost up
+                // left is open
+                else if (map.map[i][j - 1] == '.' || map.map[i][j - 1] == '@')
                 {
-                    if (map.map[i - 1][j] != '@')
-                        move_array_elements(updated_map, i, j, i - 1, j);
-                    else
+                    if (map.map[i][j - 1] == '.')
                     {
-                        move_array_elements(updated_map, i, j, i - 1, j);
-                        updated_map.map[i][j] = '.';
-                        display_the_map(updated_map, player, pill);
-                        sleep(1);
-                        display_lose_the_game(player);
+                        move_array_elements(updated_map, i, j, i, j - 1);
                     }
-                }
-                else if (random_number == 3 && map.map[i + 1][j] != '-' && map.map[i + 1][j] != '|' && map.map[i + 1][j] != 'P' && map.map[i + 1][j] != 'F') // move ghost down
-                {
-                    if (map.map[i + 1][j] != '@')
-                        move_array_elements(updated_map, i, j, i + 1, j);
                     else
                     {
-                        move_array_elements(updated_map, i, j, i + 1, j);
-                        updated_map.map[i][j] = '.';
+                        move_array_elements(updated_map, i, j, i, j - 1);
+                        updated_map.map[i][j] == '.';
                         display_the_map(updated_map, player, pill);
                         sleep(1);
                         display_lose_the_game(player);
@@ -296,7 +790,6 @@ struct map_player move_ghost(struct map_player map, struct information_of_player
 
 void game_logic(struct information_of_player player, struct map_player map)
 {
-    srand(time(NULL));
     int pill = 0;
     int number_of_pills_get = 0;
 

@@ -124,6 +124,7 @@ void login()
                     strcpy(player.password, password);
                     player.level = temp_players[index].level;
                     strcpy(player.name, temp_players[index].name);
+                    strcpy(player.family,temp_players[index].family);
                     strcpy(player.status_of_game, temp_players[index].status_of_game);
                     free(temp_players);
                     game_menu(player);
