@@ -127,7 +127,13 @@ void login()
                     strcpy(player.family,temp_players[index].family);
                     strcpy(player.status_of_game, temp_players[index].status_of_game);
                     free(temp_players);
+                    //save current player in current_player.txt
+                    FILE *current_player;
+                    current_player=fopen("current_player.txt","w");
+                    fprintf(current_player,"valid %d",player.id);
+                    fclose(current_player);
                     game_menu(player);
+
                 }
                 else
                 {

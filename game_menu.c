@@ -82,6 +82,7 @@ void dispaly_pacman_menu(int selected_of_button5, struct information_of_player p
             break;
         }
     }
+    printf(BLUE "\nPress on <backspace> for logout\n" RESET);
     printf(RED "\nPress on <esc> for Exit\n" RESET);
 }
 
@@ -197,6 +198,19 @@ void game_menu(struct information_of_player player)
                             free(player_map.map);
                             exit(0);
                             break;
+                        case 8: // backspace key
+                            update_file_information(player.id, player);
+                            for (int i = 0; i < player_map.row; i++)
+                            {
+                                free(player_map.map[i]);
+                            }
+                            free(player_map.map);
+                            FILE *current_player;
+                            current_player = fopen("current_player.txt", "w");
+                            fprintf(current_player, "notvalid");
+                            fclose(current_player);
+                            menu_login();
+                            break;
                         case 13:                          // enter key
                             if (selected_of_button4 == 0) // go to the mapA or easy
                             {
@@ -252,6 +266,19 @@ void game_menu(struct information_of_player player)
                 }
                 free(player_map.map);
                 exit(0);
+                break;
+            case 8: // backspace key
+                update_file_information(player.id, player);
+                for (int i = 0; i < player_map.row; i++)
+                {
+                    free(player_map.map[i]);
+                }
+                free(player_map.map);
+                FILE *current_player;
+                current_player = fopen("current_player.txt", "w");
+                fprintf(current_player, "notvalid");
+                fclose(current_player);
+                menu_login();
                 break;
             case 13: // enter key
                 if (selected_of_button5 == 0)

@@ -790,6 +790,7 @@ struct map_player move_ghost(struct map_player map, struct information_of_player
 
 void game_logic(struct information_of_player player, struct map_player map)
 {
+    srand(time(NULL));//produce diffrent number for rand()
     int pill = 0;
     int number_of_pills_get = 0;
 
