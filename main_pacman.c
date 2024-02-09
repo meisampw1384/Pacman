@@ -76,10 +76,10 @@ void menu_login()
             case 0: // login
                 login();
                 break;
-            case 1://sign up
+            case 1: // sign up
                 sign_up();
                 break;
-            case 2://delete player
+            case 2: // delete player
                 delete_player();
                 break;
             case 3: // exit
@@ -95,46 +95,51 @@ int main()
 {
     char validation_of_CurrentPlayer[20];
     FILE *current_player;
-    current_player=fopen("current_player.txt","r");
-    fscanf(current_player,"%s ",validation_of_CurrentPlayer);
-    //Checks whether a player has already logged in
-    if (strcmp(validation_of_CurrentPlayer,"valid")==0){
+    current_player = fopen("current_player.txt", "r");
+    fscanf(current_player, "%s ", validation_of_CurrentPlayer);
+    // Checks whether a player has already logged in
+    if (strcmp(validation_of_CurrentPlayer, "valid") == 0)
+    {
         struct information_of_player player;
         int number_of_player;
-        //get number of players
+        // get number of players
         FILE *number_of_players;
-        number_of_players=fopen("number_of_player.txt","r");
-        fscanf(number_of_players,"%d",&number_of_player);
+        number_of_players = fopen("number_of_player.txt", "r");
+        fscanf(number_of_players, "%d", &number_of_player);
         fclose(number_of_players);
-        //get information of all players and save it in struct
+        // get information of all players and save it in struct
         struct information_of_player temp_players[number_of_player];
         FILE *get_information_of_players;
-        get_information_of_players=fopen("information_of_players.txt","r");
-        for (int i=0;i<number_of_player;i++){
-        fscanf(get_information_of_players, "%s %s %d %s %d %s\n",temp_players[i].name,temp_players[i].family, &temp_players[i].id,temp_players[i].password, &temp_players[i].level, temp_players[i].status_of_game);
+        get_information_of_players = fopen("information_of_players.txt", "r");
+        for (int i = 0; i < number_of_player; i++)
+        {
+            fscanf(get_information_of_players, "%s %s %d %s %d %s\n", temp_players[i].name, temp_players[i].family, &temp_players[i].id, temp_players[i].password, &temp_players[i].level, temp_players[i].status_of_game);
         }
         fclose(get_information_of_players);
-        //get id of current player
+        // get id of current player
         int id_CurrentPlayer;
-        fscanf(current_player,"%d",&id_CurrentPlayer);
+        fscanf(current_player, "%d", &id_CurrentPlayer);
         fclose(current_player);
-        //Checks out of the registered players, which matches the current player
-        for (int i=0;i<number_of_player;i++){
-            if (temp_players[i].id==id_CurrentPlayer){
-                player.id=temp_players[i].id;
-                strcpy(player.password,temp_players[i].password);
-                strcpy(player.name,temp_players[i].name);
-                strcpy(player.family,temp_players[i].family);
-                player.level=temp_players[i].level;
-                strcpy(player.status_of_game,temp_players[i].status_of_game);
+        // Checks out of the registered players, which matches the current player
+        for (int i = 0; i < number_of_player; i++)
+        {
+            if (temp_players[i].id == id_CurrentPlayer)
+            {
+                player.id = temp_players[i].id;
+                strcpy(player.password, temp_players[i].password);
+                strcpy(player.name, temp_players[i].name);
+                strcpy(player.family, temp_players[i].family);
+                player.level = temp_players[i].level;
+                strcpy(player.status_of_game, temp_players[i].status_of_game);
                 break;
             }
         }
         game_menu(player);
     }
-    else{
+    else
+    {
         fclose(current_player);
-    menu_login();
+        menu_login();
     }
     return 0;
 }

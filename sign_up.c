@@ -167,30 +167,23 @@ void sign_up()
 
                             c += 1;
                             temp.id = c;
-                            //update file last of id 
+                            // update file last of id
                             FILE *update_file_last;
-                            update_file_last=fopen("last_id.txt","w");
-                            fprintf(update_file_last,"%d",c);
+                            update_file_last = fopen("last_id.txt", "w");
+                            fprintf(update_file_last, "%d", c);
                             fclose(update_file_last);
-                            //update file of number of player
+                            // update file of number of player
                             int x;
                             FILE *file_number_of_player;
-                            int one=1;
-                            if (check_file_exist("number_of_player.txt")){
                             file_number_of_player = fopen("number_of_player.txt", "r");
                             fscanf(file_number_of_player, "%d", &x);
                             fclose(file_number_of_player);
                             x++;
                             FILE *write_file_number_of_player;
-                            write_file_number_of_player=fopen("number_of_player.txt","w");
-                            fprintf(write_file_number_of_player,"%d",x);
+                            write_file_number_of_player = fopen("number_of_player.txt", "w");
+                            fprintf(write_file_number_of_player, "%d", x);
                             fclose(write_file_number_of_player);
-                            }
-                            else {
-                                file_number_of_player=fopen("number_of_player.txt","w");
-                                fprintf(file_number_of_player,"%d",one);
-                                fclose(file_number_of_player);
-                            }
+
                             // It updates the file and adds a user to the file
                             update_file(temp);
                             printf(GREEN "\nYour id is: " RESET);
@@ -216,7 +209,7 @@ void sign_up()
                     }
                 } while (input1 != 13);
                 break;
-            case 1://go back to the menu
+            case 1: // go back to the menu
                 menu_login();
                 break;
             }

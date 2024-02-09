@@ -18,7 +18,7 @@
                 ""
             ],
             "options": {
-                "cwd": "D:/pacman"
+                "cwd": "${fileDirname}"
             },
             "problemMatcher": [
                 "$gcc"
