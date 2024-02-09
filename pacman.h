@@ -27,7 +27,8 @@ void sign_up();
 void login();
 //display game menu
 void game_menu(struct information_of_player player);
-
 void update_file_information(int id, struct information_of_player);
 //Makes the logic of the game
 void game_logic(struct information_of_player player, struct map_player map);
+//delete player
+void delete_player();

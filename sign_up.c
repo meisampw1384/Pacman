@@ -147,35 +147,52 @@ void sign_up()
                         {
                             // give id to the temp
                             int c;
-                            if (check_file_exist("number_of_player.txt"))
+                            if (check_file_exist("last_id.txt"))
                             {
-                                read_file = fopen("number_of_player.txt", "r");
+                                read_file = fopen("last_id.txt", "r");
                                 fscanf(read_file, "%d", &c);
                                 fclose(read_file);
                             }
                             else // the file does not exist
                             {
                                 FILE *writefile;
-                                writefile = fopen("number_of_player.txt", "w");
+                                writefile = fopen("last_id.txt", "w");
                                 fprintf(writefile, "%d", 0);
                                 fclose(writefile);
                                 FILE *read_file;
-                                read_file = fopen("number_of_player.txt", "r");
+                                read_file = fopen("last_id.txt", "r");
                                 fscanf(read_file, "%d", &c);
                                 fclose(read_file);
                             }
 
                             c += 1;
                             temp.id = c;
-                            FILE *write_file;
-                            write_file = fopen("number_of_player.txt", "w");
-                            fprintf(write_file, "%d", c);
-                            fclose(write_file);
+                            //update file last of id 
+                            FILE *update_file_last;
+                            update_file_last=fopen("last_id.txt","w");
+                            fprintf(update_file_last,"%d",c);
+                            fclose(update_file_last);
+                            //update file of number of player
+                            int x;
+                            FILE *file_number_of_player;
+                            int one=1;
+                            if (check_file_exist("number_of_player.txt")){
+                            file_number_of_player = fopen("number_of_player.txt", "r");
+                            fscanf(file_number_of_player, "%d", &x);
+                            fclose(file_number_of_player);
+                            x++;
+                            FILE *write_file_number_of_player;
+                            write_file_number_of_player=fopen("number_of_player.txt","w");
+                            fprintf(write_file_number_of_player,"%d",x);
+                            fclose(write_file_number_of_player);
+                            }
+                            else {
+                                file_number_of_player=fopen("number_of_player.txt","w");
+                                fprintf(file_number_of_player,"%d",one);
+                                fclose(file_number_of_player);
+                            }
                             // It updates the file and adds a user to the file
                             update_file(temp);
-
-                            fprintf(write_file, "%d", c);
-                            fclose(write_file);
                             printf(GREEN "\nYour id is: " RESET);
                             printf("%d", temp.id);
                             printf(GREEN "\nYour password is: " RESET);

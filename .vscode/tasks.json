@@ -12,6 +12,7 @@
                 "game_menu.c",
                 "login.c",
                 "sign_up.c",
+                "delete.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 ""

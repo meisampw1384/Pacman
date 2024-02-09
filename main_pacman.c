@@ -20,7 +20,7 @@ void display(int selected_of_button)
     system("cls");
     printf(YELLOW "            Welcome to Pacman\n");
     printf("-----------------------------------------------" RESET "\n");
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         if (i == selected_of_button)
         {
@@ -36,6 +36,9 @@ void display(int selected_of_button)
             printf("sign up\n");
             break;
         case 2:
+            printf("delete player\n");
+            break;
+        case 3:
             printf("exit\n");
             break;
         }
@@ -57,12 +60,12 @@ void menu_login()
             selected_button -= 1;
             if (selected_button < 0)
             {
-                selected_button = 2;
+                selected_button = 3;
             }
             break;
         case 80: // downward arrow
             selected_button += 1;
-            if (selected_button > 2)
+            if (selected_button > 3)
             {
                 selected_button = 0;
             }
@@ -73,10 +76,13 @@ void menu_login()
             case 0: // login
                 login();
                 break;
-            case 1:
+            case 1://sign up
                 sign_up();
                 break;
-            case 2: // exit
+            case 2://delete player
+                delete_player();
+                break;
+            case 3: // exit
                 exit(0);
                 break;
             }
